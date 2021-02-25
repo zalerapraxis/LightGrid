@@ -111,15 +111,14 @@ namespace LightGrid
         {
             if (!MusicMode.Enabled)
             {
-
+                btnMusicMode.Background = Brushes.Gold;
                 Task.Run((() => MusicMode.Start()));
             }
             else
             {
-
+                btnMusicMode.Background = new SolidColorBrush(Color.FromRgb(221, 221, 221));
                 Task.Run((() => MusicMode.Stop()));
             }
-                
         }
 
 
