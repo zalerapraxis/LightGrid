@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UserSecretsId>a16812d2-ec8b-47c6-8b0e-3af505de17f7</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Magick.NET-Q8-AnyCPU" Version="7.23.2" />
+    <PackageReference Include="SpotifyAPI.Web.Auth" Version="6.0.0" />
+    <PackageReference Include="YeelightAPI" Version="1.10.1" />
+  </ItemGroup>
+
+</Project>
