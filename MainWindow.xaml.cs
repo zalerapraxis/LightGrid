@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using YeelightAPI.Models;
+using YeelightAPI.Models.ColorFlow;
 
 namespace LightGrid
 {
@@ -200,5 +201,16 @@ namespace LightGrid
             return color;
         }
 
+        private async void BtnRainbowMode_OnClick(object sender, RoutedEventArgs e)
+        {
+            FluentFlow flow = await YeelightHelper.bulbs.Flow()
+                .RgbColor(255, 0, 0, 100, 5000)
+                .RgbColor(255, 255, 0, 100, 5000)
+                .RgbColor(0, 255, 0, 100, 5000)
+                .RgbColor(0, 255, 255, 100, 5000)
+                .RgbColor(0, 0, 255, 100, 5000)
+                .RgbColor(255, 0, 255, 100, 5000)
+                .Play(ColorFlowEndAction.Keep);
+        }
     }
 }

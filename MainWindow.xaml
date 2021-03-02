@@ -14,11 +14,12 @@
 
         <UniformGrid Name="uniformGridOfColors" Grid.Row="0" Rows="5" Columns="5" />
 
-        <UniformGrid Name="uniformGridOfOptions" Grid.Row="1" Columns="4">
+        <UniformGrid Name="uniformGridOfOptions" Grid.Row="1" Columns="5">
             <Button Name="btnRefreshColors" Content="Refresh" Click="BtnRefreshColors_OnClick"></Button>
             <Button Name="btnToggleOnOff" Content="Toggle" Click="BtnToggleOnOff_OnClick"></Button>
             <Button Name="btnSet2700k" Content="2700K" Click="BtnSet2700k_OnClick"></Button>
             <Button Name="btnMusicMode" Content="Music mode" Click="BtnMusicMode_OnClick"></Button>
+            <Button Name="btnRainbowMode" Content="Rainbow mode" Click="BtnRainbowMode_OnClick"></Button>
         </UniformGrid>
     </Grid>
 </Window>
