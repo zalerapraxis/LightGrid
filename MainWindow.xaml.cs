@@ -48,7 +48,7 @@ namespace LightGrid
             var button = sender as Button;
             var buttonBgColor = (button.Background as SolidColorBrush).Color;
 
-            YeelightHelper.bulbs.SetRGBColor(buttonBgColor.R, buttonBgColor.G, buttonBgColor.B, 250);
+            YeelightHelper.SetRGBColor(buttonBgColor.R, buttonBgColor.G, buttonBgColor.B, 250);
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace LightGrid
         }
 
         /// <summary>
-        /// Refresh the color grid
+        /// Refresh the color grid, randomizing the available colors in the colorgrid
         /// </summary>
         private void BtnRefreshColors_OnClick(object sender, RoutedEventArgs e)
         {
@@ -105,9 +105,12 @@ namespace LightGrid
         /// </summary>
         private void BtnSet2700k_OnClick(object sender, RoutedEventArgs e)
         {
-            YeelightHelper.bulbs.SetColorTemperature(2700, 250);
+            YeelightHelper.SetColorTemperature(2700, 250);
         }
 
+        /// <summary>
+        /// Toggle music mode
+        /// </summary>
         private void BtnMusicMode_OnClick(object sender, RoutedEventArgs e)
         {
             if (!MusicMode.Enabled)
@@ -120,6 +123,41 @@ namespace LightGrid
                 btnMusicMode.Background = new SolidColorBrush(Color.FromRgb(221, 221, 221));
                 Task.Run((() => MusicMode.Stop()));
             }
+        }
+
+        /// <summary>
+        /// Attempt to reconnect to the lights
+        /// </summary>
+        private void BtnReconnectLights_OnClick(object sender, RoutedEventArgs e)
+        {
+            Task.Run(async () => await YeelightHelper.InitializeYeelights());
+        }
+
+        private async void btnColorFlow_Rainbow_OnClick(object sender, RoutedEventArgs e)
+        {
+            FluentFlow flow = await YeelightHelper.bulbs.Flow()
+                .RgbColor(255, 0, 0, 100, 5000) // red
+                // .RgbColor(255, 255, 0, 100, 5000) // yellow
+                .RgbColor(0, 255, 0, 100, 5000) // green
+                .RgbColor(0, 255, 255, 100, 5000) // aqua
+                .RgbColor(0, 0, 255, 100, 5000) // blue
+                .RgbColor(255, 0, 255, 100, 5000) // magenta
+                .Play(ColorFlowEndAction.Keep);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private async void BtnColorFlow_Test_OnClick(object sender, RoutedEventArgs e)
+        {
+            List<Color> colors = new List<Color>();
+            colors.Add(new Color { R = 242, G = 116, B = 70 });
+            colors.Add(new Color { R = 252, G = 95, B = 73 });
+            colors.Add(new Color { R = 230, G = 78, B = 91 });
+            colors.Add(new Color { R = 252, G = 73, B = 178 });
+            colors.Add(new Color { R = 234, G = 70, B = 242 });
+
+            await YeelightHelper.StartRandomColorFlow(colors, 5000);
         }
 
 
@@ -201,16 +239,6 @@ namespace LightGrid
             return color;
         }
 
-        private async void BtnRainbowMode_OnClick(object sender, RoutedEventArgs e)
-        {
-            FluentFlow flow = await YeelightHelper.bulbs.Flow()
-                .RgbColor(255, 0, 0, 100, 5000)
-                .RgbColor(255, 255, 0, 100, 5000)
-                .RgbColor(0, 255, 0, 100, 5000)
-                .RgbColor(0, 255, 255, 100, 5000)
-                .RgbColor(0, 0, 255, 100, 5000)
-                .RgbColor(255, 0, 255, 100, 5000)
-                .Play(ColorFlowEndAction.Keep);
-        }
+        
     }
 }
