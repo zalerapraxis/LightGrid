@@ -164,7 +164,7 @@ namespace LightGrid
                 }
 
                 // set the light color to the album art's average color
-                YeelightHelper.bulbs.SetRGBColor(albumColor.R, albumColor.G, albumColor.B, 250);
+                YeelightHelper.SetRGBColor(albumColor.R, albumColor.G, albumColor.B, 250);
 
                 oldTrackId = currentTrackDetails.Id;
 

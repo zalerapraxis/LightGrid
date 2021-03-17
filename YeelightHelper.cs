@@ -39,10 +39,17 @@ namespace LightGrid
                 // device.OnNotificationReceived += DeviceOnOnNotificationReceived;
                 device.OnError += DeviceOnError;
 
+                // commenting out in favor of trying to manage all bulbs after adding them all
+                /* 
                 device.Connect();
                 device.TurnOn();
                 device.SetBrightness(100);
+                */
             }
+
+            bulbs.Connect();
+            bulbs.TurnOn();
+            bulbs.SetBrightness(100);
         }
 
         /// <summary>
@@ -89,6 +96,7 @@ namespace LightGrid
         public static async Task StartRandomColorFlow(List<Color> colors, int colorDuration)
         {
             RandomColorFlowRunning = true;
+            ColorFlowTimer.Interval = 100;
 
             ColorFlowTimer.Elapsed += (Sender, e) => ColorFlowTimerOnElapsed(Sender, e, colors, colorDuration);
             ColorFlowTimer.Start();
