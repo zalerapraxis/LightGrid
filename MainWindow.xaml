@@ -22,9 +22,6 @@
             <Button Name="btnReconnectLights" Grid.Row="0" Content="Reconnect" Click="BtnReconnectLights_OnClick"></Button>
             
             <Button Name="btnColorFlow_Rainbow" Grid.Row="1" Content="Flow: Rainbow" Click="btnColorFlow_Rainbow_OnClick"></Button>
-            <Button Name="btnColorFlow_Warm" Grid.Row="1" Content="Flow: Warm"></Button>
-            <Button Name="btnColorFlow_Cool" Grid.Row="1" Content="Flow: Cool"></Button>
-            <Button Name="btnColorFlow_Test" Grid.Row="1" Content="Flow: Test" Click="BtnColorFlow_Test_OnClick"></Button>
 
         </UniformGrid>
     </Grid>

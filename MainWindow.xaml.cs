@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using LightGrid.Colors;
 using YeelightAPI.Models;
 using YeelightAPI.Models.ColorFlow;
 
@@ -43,12 +44,15 @@ namespace LightGrid
         /// <summary>
         /// Sets the color of the lights to the color of the given button
         /// </summary>
-        private void Btn_Click(object sender, RoutedEventArgs e)
+        private async void Btn_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
             var buttonBgColor = (button.Background as SolidColorBrush).Color;
 
-            YeelightHelper.SetRGBColor(buttonBgColor.R, buttonBgColor.G, buttonBgColor.B, 250);
+            var colors = ColorConverting.GetGradientFromColor(buttonBgColor);
+
+            //YeelightHelper.SetRGBColor(buttonBgColor.R, buttonBgColor.G, buttonBgColor.B, 250);
+            await YeelightHelper.StartRandomColorFlow(colors, 5000);
         }
 
         /// <summary>
@@ -128,9 +132,9 @@ namespace LightGrid
         /// <summary>
         /// Attempt to reconnect to the lights
         /// </summary>
-        private void BtnReconnectLights_OnClick(object sender, RoutedEventArgs e)
+        private async void BtnReconnectLights_OnClick(object sender, RoutedEventArgs e)
         {
-            Task.Run(async () => await YeelightHelper.InitializeYeelights());
+            await YeelightHelper.InitializeYeelights();
         }
 
         private async void btnColorFlow_Rainbow_OnClick(object sender, RoutedEventArgs e)
@@ -144,21 +148,7 @@ namespace LightGrid
                 .RgbColor(255, 0, 255, 100, 5000) // magenta
                 .Play(ColorFlowEndAction.Keep);
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private async void BtnColorFlow_Test_OnClick(object sender, RoutedEventArgs e)
-        {
-            List<Color> colors = new List<Color>();
-            colors.Add(new Color { R = 242, G = 116, B = 70 });
-            colors.Add(new Color { R = 252, G = 95, B = 73 });
-            colors.Add(new Color { R = 230, G = 78, B = 91 });
-            colors.Add(new Color { R = 252, G = 73, B = 178 });
-            colors.Add(new Color { R = 234, G = 70, B = 242 });
-
-            await YeelightHelper.StartRandomColorFlow(colors, 5000);
-        }
+        
 
 
         /// <summary>
@@ -185,9 +175,11 @@ namespace LightGrid
                     // get color from favorites
                     color = GetFavoriteColor(i);
                 else
+                {
                     // generate random high-intensity color
-                    // randomize the hue and saturation values, but the lightness values (for brightness) should always be max
-                    color = HSLColor.ColorFromHSL(rng.NextDouble(), rng.NextDouble(), 255);
+                    var hsl = new HslColor(rng.Next(360), rng.Next(50, 100), 255, 255);
+                    color = ColorConverting.HslToColor(hsl);
+                }
 
                 // generate empty button, set its background to above color
                 var btn = new Button();
@@ -196,7 +188,7 @@ namespace LightGrid
                 // favorite colors get gold borders
                 if (favoriteColorExists)
                 {
-                    btn.BorderBrush = new SolidColorBrush(Colors.Gold);
+                    btn.BorderBrush = new SolidColorBrush(System.Windows.Media.Colors.Gold);
                     btn.BorderThickness = new Thickness(2);
                 }
 
@@ -238,7 +230,5 @@ namespace LightGrid
 
             return color;
         }
-
-        
     }
 }
