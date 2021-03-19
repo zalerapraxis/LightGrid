@@ -135,6 +135,7 @@ namespace LightGrid
         private async void BtnReconnectLights_OnClick(object sender, RoutedEventArgs e)
         {
             await YeelightHelper.InitializeYeelights();
+            YeelightHelper.bulbs.TurnOn();
         }
 
         private async void btnColorFlow_Rainbow_OnClick(object sender, RoutedEventArgs e)

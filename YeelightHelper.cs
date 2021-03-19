@@ -48,7 +48,6 @@ namespace LightGrid
             }
 
             bulbs.Connect();
-            bulbs.TurnOn();
             bulbs.SetBrightness(100);
         }
 
